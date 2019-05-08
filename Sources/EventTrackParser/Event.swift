@@ -20,6 +20,10 @@ extension String {
         guard words.count > 1 else {
             return self
         }
+        let word = words[1]
+        if word.contains(" ") {
+            return String(word).capitalized.replacingOccurrences(of: " ", with: "")
+        }
         return String(words[1])
     }
 }

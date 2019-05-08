@@ -39,8 +39,12 @@ struct \(typeName): EventType {
                 }
                 code += "    }\n"
             }
+            // 生成函数注释
             if !event.description.isEmpty {
-                code += "    /// \(event.description)\n"
+                code += "    /// \(event.description)\n    ///\n"
+                for param in event.params {
+                    code += "    /// - parameter \(param.key): \(param.description) | [\(param.values.joined(separator: ", "))]\n"
+                }
             }
             // 生成静态方法类型： static func homePageView(source: Source, type: Type) -> Event
             code += "    static func \(event.label)("
@@ -54,28 +58,6 @@ struct \(typeName): EventType {
             code += event.params.map{"                \"\($0.key)\": \($0.key).rawValue"}.joined(separator: ",\n")
             code += "\n            ]\n        )\n"
             code += "    }\n\n"
-            // code += "    struct \(event.label): EventType {\n"
-            // code += "        var name: String { return \"\(event.name)\" }\n"
-            // code += "        var params: [String: Any]? {\n"
-            // code += "            return [\n"
-            // code += event.params.map{ "                \"\($0.key)\": \($0.key).rawValue"}.joined(separator: ",\n")
-            // // for param in event.params {
-            // //     code += "                \"\(param.key)\": \(param.key).rawValue\n"
-            // // }
-            // code += "\n            ]\n"
-            // code += "        }\n"
-            // for param in event.params {
-            //     if !param.description.isEmpty {
-            //         code += "        /// \(param.description)\n"
-            //     }
-            //     code += "        enum \(param.key.capitalizedFirstLetter): String {\n"
-            //     for value in param.values {
-            //         code += "            case \(value)\n"
-            //     }
-            //     code += "        }\n"
-            //     code += "        let \(param.key): \(param.key.capitalizedFirstLetter)\n"
-            // }
-            // code += "    }\n\n"
         }
         code += "}"
         return code

@@ -5,8 +5,8 @@ do {
     let dir = "/Users/shao/Projects/OIP/EventTrackParser/Resources/"
     typealias FileInfo = (input: String, output: String)
     let files: [FileInfo] = [
-        ("parent_events.csv", "MTAParentEvent"),
-        ("teacher_events.csv", "MTATeacherEvent")
+        ("parent_events.csv", "ParentEvent"),
+        ("teacher_events.csv", "TeacherEvent")
     ]
     for file in files {
         let csv = try CSV(name: dir + file.input)
