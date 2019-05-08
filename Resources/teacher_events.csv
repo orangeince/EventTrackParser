@@ -1,4 +1,4 @@
-事件ID,事件名称,事件类型,参数,参数描述,值
+事件ID,事件名称,事件类型,参数,参数描述,参数取值
 uploadFileChooseFile_click,选择文件,,position,统计位置：1、在详情页选择文件；2、在列表页选择文件,1、detailPage；2、listPage
 selectPerson_cancelSelectAll,选择人员取消全选,普通事件,,,
 selectPerson_search,选择人员快速搜索,普通事件,,,
@@ -61,7 +61,7 @@ chatsearch_click,点击留言页搜索框,普通事件,,,
 schoolphoto_click,点击设置中的学校头像,普通事件,source,1、切换学校；2、退出学校,1、Switch School；2、Quit School
 myhomepage_click,点击我的主页,普通事件,,,
 settings_click,点击设置,普通事件,,,
-accountinfo_click,点击设置中的账号信息,普通事件,,,
+accountInfo_click,点击设置中的账号信息,普通事件,,,
 profilephoto_click,点击账户信息的头像,普通事件,,,
 profilename_click,点击账户信息的姓名,普通事件,,,
 profilegender_click,点击账户信息的性别,普通事件,,,

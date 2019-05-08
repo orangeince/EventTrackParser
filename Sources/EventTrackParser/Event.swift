@@ -47,7 +47,7 @@ struct Event: Decodable {
         case description = "事件名称"
         case paramKeys = "参数"
         case paramDesps = "参数描述"
-        case paramValues = "值"
+        case paramValues = "参数取值"
     }
     
     init(from decoder: Decoder) throws {

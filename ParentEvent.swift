@@ -1,10 +1,16 @@
+/// 本文件是由脚本自动生成，基于产品提供的埋点文档(https://shimo.im/sheets/3CpeGXI1HGoqne7G/Pl1Ac)导出的CSV。
+/// 目前埋点文档统一，各端都以文档为准，如果出现错误请先修改文档然后再通过脚步生成本文件
+/// 脚本使用Swift实现
+
 struct MTAParentEvent: EventType {
     let name: String
     let parameters: [String: Any]?
+    // 此类型实则为一个命名空间，通过脚本自动生成，不对外暴露构造方法
     private init(name: String, parameters: [String: Any]? = nil) {
         self.name = name
         self.parameters = parameters
     }
+
     /// 筛选记录类型
     static let storyFeedFilter = MTAParentEvent(name: "storyFeed_filter")
     /// 分享记录
@@ -53,8 +59,10 @@ struct MTAParentEvent: EventType {
     static let purchaseHistoryClick = MTAParentEvent(name: "purchaseHistory_click")
     /// 点击系统通知
     static let systemnotificationClick = MTAParentEvent(name: "systemnotification_click")
-    /// 访问留言详情页
+    /// 访问数据中心页
     static let datacenterClick = MTAParentEvent(name: "datacenter_click")
+    /// 访问留言详情页
+    static let messageClick = MTAParentEvent(name: "message_click")
     /// 点击我的孩子
     static let mykidsClick = MTAParentEvent(name: "mykids_click")
     /// 点击删除孩子
@@ -67,32 +75,24 @@ struct MTAParentEvent: EventType {
     static let editinfoClick = MTAParentEvent(name: "editinfo_click")
     /// 更换孩子信息的背景
     static let changebannerClick = MTAParentEvent(name: "changebanner_click")
-    /// 点击用户姓名
-    static let profilephotoClick = MTAParentEvent(name: "profilephoto_click")
+    /// 点击账号信息
+    static let accountinfoClick = MTAParentEvent(name: "accountinfo_click")
     /// 修改头像
     static let profilephotoClick = MTAParentEvent(name: "profilephoto_click")
     /// 修改姓名
-    static let prpfilenameClick = MTAParentEvent(name: "prpfilename_click")
+    static let profilenameClick = MTAParentEvent(name: "profilename_click")
     /// 修改性别
-    static let prpfilegenderClick = MTAParentEvent(name: "prpfilegender_click")
+    static let profilegenderClick = MTAParentEvent(name: "profilegender_click")
     /// 绑定微信
     static let profileWeChatClick = MTAParentEvent(name: "profileWeChat_click")
     /// 绑定磁场
     static let profileMagnetClick = MTAParentEvent(name: "profileMagnet_click")
-    /// 点击退出登录
-    static let ueragreeementClick = MTAParentEvent(name: "ueragreeement_click")
     /// 点击用户协议
+    static let userAgreementClick = MTAParentEvent(name: "userAgreement_click")
+    /// 点击退出登录
     static let logoutClick = MTAParentEvent(name: "logout_click")
-    /// 点击邀请亲友
-    static let inviteClick = MTAParentEvent(name: "invite_click")
-    /// 点击邀请其他人
-    static let inviteGuardianClick = MTAParentEvent(name: "inviteGuardian_click")
-    /// 点击邀请监护人
-    static let inviteOther = MTAParentEvent(name: "inviteOther")
     /// 点击反馈
     static let feedbackClick = MTAParentEvent(name: "feedback_click")
-    /// 访问图片/视频详情页
-    static let uploadFileDetailPageView = MTAParentEvent(name: "uploadFileDetailPage_view")
     /// 预览文件
     static let uploadFilePreview = MTAParentEvent(name: "uploadFile_preview")
     /// 访问发布记录页
@@ -113,8 +113,6 @@ struct MTAParentEvent: EventType {
     static let storySearchHistoryClick = MTAParentEvent(name: "storySearchHistory_click")
     /// 点击日期搜索
     static let storySearchTimeClick = MTAParentEvent(name: "storySearchTime_click")
-    /// 搜索结果页选择人员
-    static let storySearchChoosePersonClick = MTAParentEvent(name: "storySearchChoosePerson_click")
     /// 搜索结果页选择标签
     static let storySearchChooseTagClick = MTAParentEvent(name: "storySearchChooseTag_click")
     /// 搜索结果页选择记录
@@ -147,199 +145,225 @@ struct MTAParentEvent: EventType {
     static let readingStoryBookRatingClick = MTAParentEvent(name: "readingStoryBookRating_click")
     /// 访问发布阅读记录页
     static let readingStoryCreatePageView = MTAParentEvent(name: "readingStoryCreatePage_view")
-    /// 统计阅读记录页的访问时长
-    static let readingStoryCreatePageViewTime = MTAParentEvent(name: "readingStoryCreatePage_viewTime")
     /// 点击孩子书房
     static let bookshelfClick = MTAParentEvent(name: "bookshelf_click")
 
 
+    enum StoryLikeClickSource: String {
+        case myKid
+        case followed
+    }
+    enum StoryLikeClickType: String {
+        case record
+        case dailyreadlog
+    }
     /// 点赞记录
-    struct storyLikeClick: EventType {
-        var name: String { return "storyLike_click" }
-        var params: [String: Any]? {
-            return [
+    static func storyLikeClick(source: StoryLikeClickSource, type: StoryLikeClickType) -> MTAParentEvent {
+        return MTAParentEvent(
+            name: "storyLike_click",
+            parameters: [
                 "source": source.rawValue,
                 "type": type.rawValue
             ]
-        }
-        /// 统计入口：1、我的孩子feed；2、关注的孩子feed
-        enum Source: String {
-            case myKid
-            case followed
-        }
-        let source: Source
-        /// 统计记录类型：成长记录/阅读记录
-        enum Type: String {
-            case record
-            case dailyreadlog
-        }
-        let type: Type
+        )
     }
 
+    enum StoryCancelLikeClickSource: String {
+        case myKid
+        case followed
+    }
+    enum StoryCancelLikeClickType: String {
+        case record
+        case dailyreadlog
+    }
     /// 取消点赞记录
-    struct storyCancelLikeClick: EventType {
-        var name: String { return "storyCancelLike_click" }
-        var params: [String: Any]? {
-            return [
+    static func storyCancelLikeClick(source: StoryCancelLikeClickSource, type: StoryCancelLikeClickType) -> MTAParentEvent {
+        return MTAParentEvent(
+            name: "storyCancelLike_click",
+            parameters: [
                 "source": source.rawValue,
                 "type": type.rawValue
             ]
-        }
-        /// 统计入口：1、我的孩子feed；2、关注的孩子feed
-        enum Source: String {
-            case myKid
-            case followed
-        }
-        let source: Source
-        /// 统计记录类型：成长记录/阅读记录
-        enum Type: String {
-            case record
-            case dailyreadlog
-        }
-        let type: Type
+        )
     }
 
+    enum StoryCommentClickSource: String {
+        case myKid
+        case followed
+    }
+    enum StoryCommentClickType: String {
+        case record
+        case dailyreadlog
+    }
     /// 评论记录
-    struct storyCommentClick: EventType {
-        var name: String { return "storyComment_click" }
-        var params: [String: Any]? {
-            return [
+    static func storyCommentClick(source: StoryCommentClickSource, type: StoryCommentClickType) -> MTAParentEvent {
+        return MTAParentEvent(
+            name: "storyComment_click",
+            parameters: [
                 "source": source.rawValue,
                 "type": type.rawValue
             ]
-        }
-        /// 统计入口：1、我的孩子feed；2、关注的孩子feed
-        enum Source: String {
-            case myKid
-            case followed
-        }
-        let source: Source
-        /// 统计记录类型：成长记录/阅读记录
-        enum Type: String {
-            case record
-            case dailyreadlog
-        }
-        let type: Type
+        )
     }
 
+    enum StoryReplyCommentClickSource: String {
+        case myKid
+        case followed
+    }
+    enum StoryReplyCommentClickType: String {
+        case record
+        case dailyreadlog
+    }
     /// 回复评论
-    struct storyReplyCommentClick: EventType {
-        var name: String { return "storyReplyComment_click" }
-        var params: [String: Any]? {
-            return [
+    static func storyReplyCommentClick(source: StoryReplyCommentClickSource, type: StoryReplyCommentClickType) -> MTAParentEvent {
+        return MTAParentEvent(
+            name: "storyReplyComment_click",
+            parameters: [
                 "source": source.rawValue,
                 "type": type.rawValue
             ]
-        }
-        /// 统计入口：1、我的孩子feed；2、关注的孩子feed
-        enum Source: String {
-            case myKid
-            case followed
-        }
-        let source: Source
-        /// 统计记录类型：成长记录/阅读记录
-        enum Type: String {
-            case record
-            case dailyreadlog
-        }
-        let type: Type
+        )
     }
 
+    enum StoryFeedPageViewPosition: String {
+        case myKid
+        case followed
+    }
     /// 访问记录feed页面
-    struct storyFeedPageView: EventType {
-        var name: String { return "storyFeedPage_view" }
-        var params: [String: Any]? {
-            return [
+    static func storyFeedPageView(position: StoryFeedPageViewPosition) -> MTAParentEvent {
+        return MTAParentEvent(
+            name: "storyFeedPage_view",
+            parameters: [
                 "position": position.rawValue
             ]
-        }
-        /// 统计位置：1、我的孩子；2、我关注的孩子
-        enum Position: String {
-            case myKid
-            case followed
-        }
-        let position: Position
+        )
     }
 
+    enum UploadFileListPageViewSource: String {
+        case story
+        case message
+    }
     /// 上传图片列表页
-    struct uploadFileListPageView: EventType {
-        var name: String { return "uploadFileListPage_view" }
-        var params: [String: Any]? {
-            return [
+    static func uploadFileListPageView(source: UploadFileListPageViewSource) -> MTAParentEvent {
+        return MTAParentEvent(
+            name: "uploadFileListPage_view",
+            parameters: [
                 "source": source.rawValue
             ]
-        }
-        /// 统计入口：1、记录内；2、私信内
-        enum Source: String {
-            case story
-            case message
-        }
-        let source: Source
+        )
     }
 
+    enum UploadFileChooseFileClickSource: String {
+        case detailPage
+        case listPage
+    }
     /// 选择文件
-    struct uploadFileChooseFileClick: EventType {
-        var name: String { return "uploadFileChooseFile_click" }
-        var params: [String: Any]? {
-            return [
+    static func uploadFileChooseFileClick(source: UploadFileChooseFileClickSource) -> MTAParentEvent {
+        return MTAParentEvent(
+            name: "uploadFileChooseFile_click",
+            parameters: [
                 "source": source.rawValue
             ]
-        }
-        /// 统计入口：1、在详情页选择文件；2、在列表页选择文件
-        enum Source: String {
-            case detailPage
-            case listPage
-        }
-        let source: Source
+        )
     }
 
+    enum BookSearchClickSource: String {
+        case readingStory
+        case bookShelf
+    }
     /// 点击搜索书籍
-    struct bookSearchClick: EventType {
-        var name: String { return "bookSearch_click" }
-        var params: [String: Any]? {
-            return [
+    static func bookSearchClick(source: BookSearchClickSource) -> MTAParentEvent {
+        return MTAParentEvent(
+            name: "bookSearch_click",
+            parameters: [
                 "source": source.rawValue
             ]
-        }
-        /// 统计入口：1、阅读记录内；2、书架内
-        enum Source: String {
-            case readingStory
-            case bookShelf
-        }
-        let source: Source
+        )
     }
 
+    enum BookScanClickSource: String {
+        case readingStory
+        case bookShelf
+    }
     /// 点击扫码加书
-    struct bookScanClick: EventType {
-        var name: String { return "bookScan_click" }
-        var params: [String: Any]? {
-            return [
+    static func bookScanClick(source: BookScanClickSource) -> MTAParentEvent {
+        return MTAParentEvent(
+            name: "bookScan_click",
+            parameters: [
                 "source": source.rawValue
             ]
-        }
-        /// 统计入口：1、阅读记录内；2、书架内
-        enum Source: String {
-            case readingStory
-            case bookShelf
-        }
-        let source: Source
+        )
     }
 
+    enum ShareClickSource: String {
+        case weChat
+        case moment
+        case more
+    }
     /// 点击活动中的分享
-    struct shareClick: EventType {
-        var name: String { return "share_click" }
-        var params: [String: Any]? {
-            return [
+    static func shareClick(source: ShareClickSource) -> MTAParentEvent {
+        return MTAParentEvent(
+            name: "share_click",
+            parameters: [
                 "source": source.rawValue
             ]
-        }
-        /// 分享路径：1、微信；2、朋友圈；3、其他
-        enum Source: String {
-            case weChat
-            case moment
-            case more
-        }
-        let source: Source
+        )
+    }
+
+    enum InviteGuardianClickSource: String {
+        case me
+        case relative
+    }
+    /// 点击邀请监护人
+    static func inviteGuardianClick(source: InviteGuardianClickSource) -> MTAParentEvent {
+        return MTAParentEvent(
+            name: "inviteGuardian_click",
+            parameters: [
+                "source": source.rawValue
+            ]
+        )
+    }
+
+    enum QRcodeInviteGuardianClickSource: String {
+        case weChat
+        case save
+    }
+    /// 二维码邀请监护人
+    static func qRcodeInviteGuardianClick(source: QRcodeInviteGuardianClickSource) -> MTAParentEvent {
+        return MTAParentEvent(
+            name: "QRcodeInviteGuardian_click",
+            parameters: [
+                "source": source.rawValue
+            ]
+        )
+    }
+
+    enum InviteOtherSource: String {
+        case me
+        case guardian
+    }
+    /// 点击邀请其他人
+    static func inviteOther(source: InviteOtherSource) -> MTAParentEvent {
+        return MTAParentEvent(
+            name: "inviteOther",
+            parameters: [
+                "source": source.rawValue
+            ]
+        )
+    }
+
+    enum QRcodeInviteOtherClickSource: String {
+        case weChat
+        case save
+    }
+    /// 二维码邀请其他人
+    static func qRcodeInviteOtherClick(source: QRcodeInviteOtherClickSource) -> MTAParentEvent {
+        return MTAParentEvent(
+            name: "QRcodeInviteOther_click",
+            parameters: [
+                "source": source.rawValue
+            ]
+        )
     }
 
 }
