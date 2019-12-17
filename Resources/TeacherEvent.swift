@@ -19,8 +19,6 @@ struct TeacherEvent: EventType {
     static let selectPersonSelectAll = TeacherEvent(name: "selectPerson_selectAll")
     /// 选择学生快速筛选
     static let selectStudentFilter = TeacherEvent(name: "selectStudent_filter")
-    /// 访问发布记录页
-    static let storyCreatePageView = TeacherEvent(name: "storyCreatePage_view")
     /// 分享记录
     static let storyShareClick = TeacherEvent(name: "storyShare_click")
     /// 编辑记录
@@ -177,6 +175,70 @@ struct TeacherEvent: EventType {
     static let tabHomePageClick = TeacherEvent(name: "tabHomePage_click")
     /// 点击家庭记录
     static let tabFamilyStoryPageClick = TeacherEvent(name: "tabFamilyStoryPage_click")
+    /// 使用校园相册功能
+    static let photoAlbumClick = TeacherEvent(name: "photoAlbum_click")
+    /// 校园相册-重命名文件
+    static let renameClick = TeacherEvent(name: "rename_click")
+    /// 校园相册-删除文件
+    static let deleteFileClick = TeacherEvent(name: "deleteFile_click")
+    /// 校园相册-点击添加
+    static let addClick = TeacherEvent(name: "add_click")
+    /// 校园相册-点击上传图片
+    static let uploadPhotoClick = TeacherEvent(name: "uploadPhoto_click")
+    /// 校园相册-点击新建文件夹
+    static let addFolderClick = TeacherEvent(name: "addFolder_click")
+    /// 校园相册-保存图片
+    static let savePhotoClick = TeacherEvent(name: "savePhoto_click")
+    /// 发记录时从校园相册中选取
+    static let chooseFromPhotoAlbum = TeacherEvent(name: "chooseFromPhotoAlbum")
+    /// 点击学期设置
+    static let semesterSettingClick = TeacherEvent(name: "semesterSetting_click")
+    /// 点击更换手机号
+    static let changePhoneNumberClick = TeacherEvent(name: "changePhoneNumber_click")
+    /// 点击立即修改
+    static let changeClick = TeacherEvent(name: "change_click")
+    /// 点击确认更换
+    static let confirmToChangeClick = TeacherEvent(name: "confirmToChange_click")
+    /// 点击重新登录
+    static let pleaseReLoginClick = TeacherEvent(name: "pleaseReLogin_click")
+    /// 点击了解晨犀
+    static let aboutAmRhinoClick = TeacherEvent(name: "aboutAmRhino_click")
+    /// 点击了解晨犀能做什么
+    static let learnamRhinoDoClick = TeacherEvent(name: "learnamRhinoDo_click")
+    /// 点击保存到草稿箱
+    static let saveDraftClick = TeacherEvent(name: "saveDraft_click")
+    /// 不保存草稿
+    static let donotSaveDraft = TeacherEvent(name: "donotSaveDraft")
+    /// 点击草稿箱
+    static let draftsClick = TeacherEvent(name: "drafts_click")
+    /// 点击草稿箱的管理
+    static let managementClick = TeacherEvent(name: "management_click")
+    /// 点击删除草稿
+    static let deleteDraftClick = TeacherEvent(name: "deleteDraft_click")
+    /// 引导-点击下一步
+    static let guideNextClick = TeacherEvent(name: "guideNext_click")
+    /// 跳过引导
+    static let skipClick = TeacherEvent(name: "skip_click")
+    /// 引导-点击我的班级
+    static let myclassClick = TeacherEvent(name: "myclass_click")
+    /// 引导-创建班级
+    static let guideAddClassClick = TeacherEvent(name: "guideAddClass_click")
+    /// 引导-输入名称点击完成
+    static let classnameCompleteClick = TeacherEvent(name: "classnameComplete_click")
+    /// 引导-点击班级详情
+    static let classClick = TeacherEvent(name: "class_click")
+    /// 引导-点击邀请学生
+    static let inviteStudentsClick = TeacherEvent(name: "inviteStudents_click")
+    /// 引导-点击二维码邀请学生
+    static let qRcodeInviteClick = TeacherEvent(name: "QRcodeInvite_click")
+    /// 引导-二维码页点击下一步
+    static let qRcodeNextClick = TeacherEvent(name: "QRcodeNext_click")
+    /// 引导-点击消息页的完成
+    static let guideCompleteClick = TeacherEvent(name: "guideComplete_click")
+    /// 点击系统通知详情页查看记录报告
+    static let storyReportClick = TeacherEvent(name: "storyReport_click")
+    /// 点击系统通知详情页查看出勤提醒
+    static let attendanceReminderClick = TeacherEvent(name: "attendanceReminder_click")
 
 
     enum UploadFileChooseFileClickPosition: String {
@@ -329,6 +391,18 @@ struct TeacherEvent: EventType {
         )
     }
 
+    /// 访问发布记录页
+    ///
+    /// - parameter templateName_Name: 统计模版名称+ID  “xxxx_id” | [String]
+    static func storyCreatePageView(templateName_Name: String) -> TeacherEvent {
+        return TeacherEvent(
+            name: "storyCreatePage_view",
+            parameters: [
+                "templateName_Name": templateName_Name
+            ]
+        )
+    }
+
     enum InviteTeacherClickSource: String {
         case addTeacherInSchool
         case qrCodeInvitation
@@ -439,6 +513,86 @@ struct TeacherEvent: EventType {
             name: "schoolphoto_click",
             parameters: [
                 "source": source.rawValue
+            ]
+        )
+    }
+
+    enum AccountInfoClickPosition : String {
+        case new_user_index
+        case me
+    }
+    /// 点击账户信息
+    ///
+    /// - parameter position : 1、新用户页面（灯塔页）；2、加入学校后“我”页面 | [new_user_index, me]
+    static func accountInfoClick(position : AccountInfoClickPosition ) -> TeacherEvent {
+        return TeacherEvent(
+            name: "accountInfo_click",
+            parameters: [
+                "position ": position .rawValue
+            ]
+        )
+    }
+
+    enum ScanClickPosition : String {
+        case new_user_index
+        case index
+    }
+    /// 点击扫一扫
+    ///
+    /// - parameter position : 1、新用户页面（灯塔页）；2、加入学校后首页 | [new_user_index, index]
+    static func scanClick(position : ScanClickPosition ) -> TeacherEvent {
+        return TeacherEvent(
+            name: "scan_click",
+            parameters: [
+                "position ": position .rawValue
+            ]
+        )
+    }
+
+    enum ScanToJoinClickPosition : String {
+        case new_user_index
+        case switchSchool
+    }
+    /// 点击扫码加入学校
+    ///
+    /// - parameter position : 1、新用户页面（灯塔页）；2、切换学校页 | [new_user_index, switchSchool]
+    static func scanToJoinClick(position : ScanToJoinClickPosition ) -> TeacherEvent {
+        return TeacherEvent(
+            name: "scanToJoin_click",
+            parameters: [
+                "position ": position .rawValue
+            ]
+        )
+    }
+
+    enum CreateNewSchoolClickPosition : String {
+        case new_user_index
+        case switchSchool
+    }
+    /// 点击开通学校
+    ///
+    /// - parameter position : 1、新用户页面（灯塔页）；2、切换学校页 | [new_user_index, switchSchool]
+    static func createNewSchoolClick(position : CreateNewSchoolClickPosition ) -> TeacherEvent {
+        return TeacherEvent(
+            name: "createNewSchool_click",
+            parameters: [
+                "position ": position .rawValue
+            ]
+        )
+    }
+
+    enum ApplytoJoinSchoolClickResult: String {
+        case agree
+        case reject
+    }
+    /// 点击系统通知详情页查看申请加入学校通知
+    ///
+    /// - parameter result: 1、同意；2、拒绝 | [agree, reject]
+    static func applytoJoinSchoolClick(result: ApplytoJoinSchoolClickResult) -> TeacherEvent {
+        return TeacherEvent(
+            name: "applytoJoinSchool_click",
+            parameters: [
+                "result": result.rawValue
             ]
         )
     }

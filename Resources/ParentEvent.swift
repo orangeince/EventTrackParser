@@ -29,8 +29,6 @@ struct ParentEvent: EventType {
     static let familytripClick = ParentEvent(name: "familytrip_click")
     /// 点击亲子游的输入框
     static let familytripInputboxClick = ParentEvent(name: "familytrip_inputbox_click")
-    /// 点击足迹
-    static let activityClick = ParentEvent(name: "activity_click")
     /// 访问亲子游中任意活动
     static let activitydetailsClick = ParentEvent(name: "activitydetails_click")
     /// 点击活动中的感兴趣
@@ -147,6 +145,12 @@ struct ParentEvent: EventType {
     static let readingStoryCreatePageView = ParentEvent(name: "readingStoryCreatePage_view")
     /// 点击孩子书房
     static let bookshelfClick = ParentEvent(name: "bookshelf_click")
+    /// 点击学校通知
+    static let notificationClick = ParentEvent(name: "notification_click")
+    /// 点击数据报告详情页查看测评报告
+    static let assessmentReportClick = ParentEvent(name: "assessmentReport_click")
+    /// 点击数据报告详情页查看阅读报告
+    static let readingReportClick = ParentEvent(name: "readingReport_click")
 
 
     enum StoryLikeClickSource: String {
@@ -273,9 +277,9 @@ struct ParentEvent: EventType {
         case detailPage
         case listPage
     }
-    /// 选择文件
+    /// 查看文件
     ///
-    /// - parameter source: 统计入口：1、在详情页选择文件；2、在列表页选择文件 | [detailPage, listPage]
+    /// - parameter source: 统计入口：1、记录feed查看文件、2；在通知详情查看文件 | [detailPage, listPage]
     static func uploadFileChooseFileClick(source: UploadFileChooseFileClickSource) -> ParentEvent {
         return ParentEvent(
             name: "uploadFileChooseFile_click",
@@ -311,6 +315,22 @@ struct ParentEvent: EventType {
     static func bookScanClick(source: BookScanClickSource) -> ParentEvent {
         return ParentEvent(
             name: "bookScan_click",
+            parameters: [
+                "source": source.rawValue
+            ]
+        )
+    }
+
+    enum ActivityClickSource: String {
+        case familyTrip
+        case me
+    }
+    /// 点击足迹
+    ///
+    /// - parameter source: 来源：1、亲子游；2、我 | [familyTrip, me]
+    static func activityClick(source: ActivityClickSource) -> ParentEvent {
+        return ParentEvent(
+            name: "activity_click",
             parameters: [
                 "source": source.rawValue
             ]
@@ -392,6 +412,22 @@ struct ParentEvent: EventType {
     static func qRcodeInviteOtherClick(source: QRcodeInviteOtherClickSource) -> ParentEvent {
         return ParentEvent(
             name: "QRcodeInviteOther_click",
+            parameters: [
+                "source": source.rawValue
+            ]
+        )
+    }
+
+    enum DataReportClickSource: String {
+        case assessment_report
+        case reading_report
+    }
+    /// 点击数据报告
+    ///
+    /// - parameter source: 1、测评报告；2、阅读报告 | [assessment_report, reading_report]
+    static func dataReportClick(source: DataReportClickSource) -> ParentEvent {
+        return ParentEvent(
+            name: "dataReport_click",
             parameters: [
                 "source": source.rawValue
             ]
